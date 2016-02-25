@@ -27,19 +27,34 @@ function cj() {
 
   // primary loop
   function parseCj() {
-    
+    dump();
+    title();
+    links();
+    items();
+    queries();
+    template();
+    error();
+    cjClearEdit();
   }
 
   // handle response dump
   function dump() {
     var elm;
 
+    elm = d.find("dump");
+    if(elm) {
+      elm.innerHTML = JSON.stringify(g.cj.collection, null, 2); 
+    }
   }
   
   // handle title
   function title() {
     var elm;
 
+    elm = d.find("title");
+    if(elm) {
+      elm.innerHTML = g.cj.collection.title||"Cj Client";
+    }
   }
   
   // handle link collection
@@ -47,6 +62,21 @@ function cj() {
     var elm, coll;
     var ul, li, a;
 
+    elm = d.find("links");
+    if(elm) {
+      d.clear(elm);
+      coll = g.cj.collection.links||[];
+      ul = d.node("ul");
+      ul.onclick = httpGet;
+      
+      for(var link of coll) {
+        li = d.node("li");
+        a = d.anchor({rel:link.rel, href:link.href, text:link.prompt});
+        d.push(a, li);
+        d.push(li,ul);
+      }
+      d.push(ul, elm);
+    }
   }
 
   // handle item collection
@@ -56,6 +86,46 @@ function cj() {
     var dl, dt, dd;
     var p, a;
 
+    elm = d.find("items");
+    if(elm) {
+      d.clear(elm);
+      ul = d.node("ul");
+      
+      coll = g.cj.collection.items||[];
+      for(var item of coll) {
+          li = d.node("li");
+          dl = d.node("dl");
+          dt = d.node ("dt");
+
+          // item link
+          a = d.anchor({rel:item.rel, href:item.href,text:item.prompt||"Item",className:"item link"});
+          a.onclick = httpGet;
+          d.push(a,dt);
+
+          // edit link
+          a = d.anchor({rel:"edit", href:item.href, text:"Edit", className:"item action"});
+          a.onclick = cjEdit;
+          d.push(a,dt);
+          
+          // delete link
+          a = d.anchor({rel:"delete", href:item.href, text:"Delete", className:"item action"});
+          a.onclick = httpDelete;
+          d.push(a,dt);
+
+          d.push(dt,dl);
+          
+          // properties
+          dd = d.node("dd");
+          for(var data of item.data) {
+            p = d.data({text:data.prompt||data.name, value:(data.value||"&nbsp;"), className:"item "+data.name});
+            d.push(p,dd);
+          }
+          d.push(dd,dl);
+          d.push(dl,li);
+          d.push(li,ul);
+      }
+      d.push(ul, elm); 
+    }    
   }
   
   // handle query collection
@@ -64,6 +134,42 @@ function cj() {
     var ul, li;
     var form, fs, lg, p, inp;
 
+    elm = d.find("queries");
+    if(elm) {
+      d.clear(elm);
+      ul = d.node("ul");
+      coll = g.cj.collection.queries||[];
+      for(var query of coll) {
+        li = d.node("li");
+        
+        form = d.node("form");
+        form.action = query.href;
+        form.method = "get";
+        form.className = query.rel||"query";
+        form.onsubmit = httpQuery;
+
+        fs = d.node("fieldset")
+        lg = d.node("legend");
+        lg.innerHTML = query.prompt||"Query";
+        d.push(lg,fs);
+
+        for(var data of query.data) {
+          p = d.input({prompt:data.prompt,value:data.value,name:data.name});
+          d.push(p,fs);
+        }
+
+        p = d.node("p");
+        inp = d.node("input");
+        inp.type = "submit";
+        d.push(inp,p);
+        d.push(p,fs);
+
+        d.push(fs,form);
+        d.push(form,li);
+        d.push(li,ul);
+      }
+      d.push(ul,elm);
+    }
   }
   
   // handle template object
@@ -71,6 +177,38 @@ function cj() {
     var elm, coll;
     var form, fs, lg, p, inp;
 
+    elm = d.find("template");
+    if(elm) {
+      d.clear(elm);
+      if(hasTemplate(g.cj.collection)) {
+        coll = g.cj.collection.template.data||[];
+
+        form = d.node("form");
+        form.action = g.cj.collection.href||"#";
+        form.method = "post";
+        form.className = "add";
+        form.onsubmit = httpPost;
+
+        fs = d.node("fieldset");
+        lg = d.node("legend");
+        lg.innerHTML = g.cj.collection.prompt||"Add";
+        d.push(lg,fs);
+
+        for(var data of coll) {
+          p = d.input({name:data.name, prompt:data.prompt||data.name, value:data.value});
+          d.push(p,fs);
+        }
+
+        p = d.node("p");
+        inp = d.node("input");
+        inp.type ="submit";
+        d.push(inp, p);
+        d.push(p, fs);
+        
+        d.push(fs,form);
+        d.push(form,elm);
+      }
+    }
   }
   
   // handle error object

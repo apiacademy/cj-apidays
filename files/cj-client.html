@@ -8,7 +8,7 @@
     <h1 id="title"></h1>
     <div id="links"></div>
     <div id="items"></div>
-    <div id="edit" class="display:none;"></div>
+    <div id="edit" style="display:none;"></div>
     <div id="queries"></div>
     <div id="template"></div>
     <div id="error"></div>
@@ -18,10 +18,20 @@
   </body>
   <script src="dom-help.js">//na </script>
   <script src="cj-client.js">//na </script>
+  <!--
+  <script src="cj-client-all.js">//na </script>
+  -->
   <script>
+    // load the cj engine
     window.onload = function() {
       var pg = cj();
       pg.init("/"); // first URL
+
     }
+
+    // hack the SPA
+    window.onbeforeunload = function() {
+     return "Are you sure?";
+    };
   </script>
 </html>

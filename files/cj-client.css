@@ -32,7 +32,6 @@ form label::after{content:":"}
 form input {clear:right;}
 form input[type=submit] {margin-left:150px;font-weight:bold;}
 
-
 #links ul {margin: 0;padding: 0;list-style-type: none;}
 #links ul li {display: inline;}
 #links ul li a {text-decoration: none;padding: .2em 1em;color: #fff;background-color: #036;}
@@ -43,7 +42,6 @@ form input[type=submit] {margin-left:150px;font-weight:bold;}
 #queries {width:49%;float:right;}
 #queries li {margin:0;padding:0;}
 #queries ul {margin:0;padding:0;list-style:none;}
-
 
 #template {width:49%;float:right;}
 
