@@ -17,8 +17,9 @@
     </div>
   </body>
   <script src="dom-help.js">//na </script>
-  <script src="cj-client.js">//na </script>
+  <script src="cj-client-dump.js">//na </script>
   <!--
+  <script src="cj-client.js">//na </script>
   <script src="cj-client-all.js">//na </script>
   -->
   <script>
@@ -26,12 +27,6 @@
     window.onload = function() {
       var pg = cj();
       pg.init("/"); // first URL
-
-    }
-
-    // hack the SPA
-    window.onbeforeunload = function() {
-     return "Are you sure?";
     };
   </script>
 </html>
