@@ -66,7 +66,7 @@ function cj() {
       coll = g.cj.collection.links||[];
       for(var link of coll) {
         li = d.node("li");
-        a = d.anchor({rel:link.rel, href:link.href,text:link.prompt});
+        a = d.anchor({rel:link.rel, href:link.href, text:link.prompt});
         a.onclick = httpGet;
         d.push(a,li);
         d.push(li,ul);
@@ -94,7 +94,7 @@ function cj() {
         dt = d.node("dt");
 
         // item link
-        a = d.anchor({href:item.href,rel:item.rel||"item", text:item.prompt||"Item",className:"item link"});
+        a = d.anchor({href:item.href, rel:item.rel||"item", text:item.prompt||"Item", className:"item link"});
         a.onclick = httpGet;
         d.push(a, dt);
 

@@ -47,6 +47,6 @@ form input[type=submit] {margin-left:150px;font-weight:bold;}
 
 #edit {width:49%;float:right;}
 
-#error {color:red; font-weight:bold;clear:both;}
+#error {color:red; font-weight:bold; clear:both;}
 #error p {margin:0}
 
