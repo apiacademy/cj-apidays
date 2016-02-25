@@ -28,6 +28,9 @@ function cj() {
   // primary loop
   function parseCj() {
     dump();    
+
+    title();    
+    links();
   }
 
   // handle response dump
@@ -44,6 +47,10 @@ function cj() {
   function title() {
     var elm;
 
+    elm = d.find("title");
+    if(elm && g.cj.collection.title) {
+      elm.innerHTML = g.cj.collection.title;
+    }
   }
   
   // handle link collection
@@ -51,6 +58,20 @@ function cj() {
     var elm, coll;
     var ul, li, a;
 
+    elm = d.find("links");
+    if(elm) {
+      d.clear(elm);
+      ul = d.node("ul");
+      coll = g.cj.collection.links||[];
+      for(var link of coll) {
+        li = d.node("li");
+        a = d.anchor({rel:link.rel, href:link.href,text:link.prompt});
+        a.onclick = httpGet;
+        d.push(a,li);
+        d.push(li,ul);
+      }
+      d.push(ul,elm);
+    }
   }
 
   // handle item collection
