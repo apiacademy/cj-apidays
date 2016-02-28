@@ -27,7 +27,7 @@ function cj() {
 
   // primary loop
   function parseCj() {
-    
+
   }
 
   // handle response dump
